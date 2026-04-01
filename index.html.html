@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomasz Szydło | Tomi Tornado</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    position:relative;
+    padding:40px 20px;
+}
+
+/* Hacker background */
+#matrix{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+}
+
+/* Main card */
+.card{
+    position:relative;
+    z-index:2;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(15px);
+    border-radius:20px;
+    padding:60px 50px;
+    text-align:center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    width:100%;
+    max-width:650px;
+    border:1px solid rgba(0,229,255,0.4);
+}
+
+.logo{
+    width:130px;
+    height:130px;
+    margin:0 auto 25px auto;
+}
+
+h1{
+    font-size:34px;
+}
+
+.nickname{
+    font-size:18px;
+    color:#00e5ff;
+    margin-bottom:10px;
+}
+
+.it-tag{
+    margin-top:10px;
+    font-size:14px;
+    color:#00e5ff;
+    letter-spacing:2px;
+}
+
+.programming{
+    margin-top:30px;
+    font-size:18px;
+    line-height:1.7;
+}
+
+.programming span{
+    color:#00e5ff;
+    font-weight:bold;
+}
+
+.cta{
+    margin-top:35px;
+    padding:20px;
+    background: rgba(0,229,255,0.1);
+    border:1px solid #00e5ff;
+    border-radius:12px;
+    font-size:17px;
+    line-height:1.6;
+}
+
+.contact{
+    margin-top:40px;
+    font-size:20px;
+    line-height:2.2;
+    font-weight:bold;
+}
+
+.contact a{
+    color:#00ffff;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.contact a:hover{
+    color:white;
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="card">
+
+    <svg class="logo" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="90" stroke="#00e5ff" stroke-width="6" fill="none"/>
+        <text x="50%" y="54%" text-anchor="middle" fill="#00e5ff" font-size="55" font-weight="bold" dy=".3em">TT</text>
+        <text x="50%" y="80%" text-anchor="middle" fill="#00e5ff" font-size="18">IT</text>
+    </svg>
+
+    <h1>Tomasz Szydło</h1>
+    <div class="nickname">Tomi Tornado</div>
+    <div class="it-tag">IT • Developer • Python</div>
+
+    <div class="programming">
+        💻 Specjalizuję się w programowaniu w języku <span>Python</span>.<br>
+        Tworzę aplikacje, automatyzacje, narzędzia oraz rozwiązania dopasowane do potrzeb klienta.
+    </div>
+
+    <div class="cta">
+        🚀 Potrzebujesz stworzyć program?<br>
+        Podaj temat i określ czego ma dotyczyć,<br>
+        a wspólnymi siłami zrobimy profesjonalne rozwiązanie.
+    </div>
+
+    <div class="contact">
+        📧 <a href="mailto:tomi6230@o2.pl">tomi6230@o2.pl</a><br>
+        📱 <a href="tel:510758401">510 758 401</a>
+    </div>
+
+</div>
+
+<script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas(){
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+}
+resizeCanvas();
+
+const letters = "01{}[]<>/\\|+=-*#@$%^& def class import print while for True False None";
+const fontSize = 14;
+let columns = canvas.width / fontSize;
+let drops = [];
+
+function initDrops(){
+    columns = canvas.width / fontSize;
+    drops = [];
+    for(let x = 0; x < columns; x++){
+        drops[x] = 1;
+    }
+}
+initDrops();
+
+function draw(){
+    ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00ffcc";
+    ctx.font = fontSize + "px monospace";
+
+    for(let i = 0; i < drops.length; i++){
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if(drops[i] * fontSize > canvas.height && Math.random() > 0.975){
+            drops[i] = 0;
+        }
+
+        drops[i]++;
+    }
+}
+
+setInterval(draw, 33);
+
+window.addEventListener("resize", () => {
+    resizeCanvas();
+    initDrops();
+});
+</script>
+
+</body>
+</html>
